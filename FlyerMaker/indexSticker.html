@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Flyer maker ordr</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="qrcode.js"></script>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="html2canvas.js"></script>
+  <script type="text/javascript"
+    src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <script type="text/javascript" src="qrcode-main.js"></script>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"      
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="easy.qrcode.js"></script>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;600&display=swap" rel="stylesheet">
+
+
+  <!--JS og jsQuery libraries-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <script src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>   
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js" integrity="sha384-3ziFidFTgxJXHMDttyPJKDuTlmxJlwbSkojudK/CkRqKDOmeSbN6KLrGdrBQnT2n" crossorigin="anonymous"></script>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+
+</head>
+
+<body id="body">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="ordrLogoFlyer.png" class="navbar-brand">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+          <a class="nav-link" href="index.html"></a>
+          <a class="nav-link" href="index.html">Flyer<span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="indexSticker.html">Sticker<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!--<div class="row">-->
+  <div class="card col-xl-1">
+    <div class="watermark-bg">
+      <h3 class="watermark">1</h3>
+    </div>
+    <div class="card-header"><i style="font-size:24px" class="fa">&#xf042;</i></div>
+    <div id="underline"></div>
+    <div class="card-body">
+      <h5 class="card-title">Add backgorund color<button type="button" class="btn" data-toggle="popover" title="Background color" data-content="The background color is the base color of your flyer">?  </button></h5></h5>
+      <input type="color" id="color_back">
+    </div>
+
+    <!--<div class="card-header"><i style="font-size:24px" class="fa">&#xf042;</i></div>-->
+    <!--<div id="underline"></div>-->
+    <div class="card-body">
+      <h5 class="card-title">Add font color<button type="button" class="btn" data-toggle="popover" title="Font color" data-content="The font color is the color used in your main text elements">?  </button></h5></h5>
+      <input type="color" id="color_font" value="#ffffff">
+    </div>
+
+
+    <!--<div class="card-header"><i style="font-size:24px" class="fa">&#xf042;</i></div>-->
+    <!--<div id="underline"></div>-->
+    <div class="card-body">
+      <h5 class="card-title">Add detail color<button type="button" class="btn" data-toggle="popover" title="Detail color" data-content="Detail color is the color used in elements such as borders">?  </button></h5></h5>
+      <input type="color" id="color_detail" value="#13c3ba">
+    </div>
+  </div>
+
+  <div class="card col-xl-1">
+    <div class="watermark-bg">
+      <h3 class="watermark">2</h3>
+    </div>
+    <div class="card-header"><i style="font-size:24px" class="fa">&#xf0c1;</i></div>
+    <div id="underline"></div>
+    <div class="card-body">
+      <h5 class="card-title">add your link</h5>
+      <input id="qr-link" type="text" value="" placeholder="Paste your link..." />
+    </div>
+  </div>
+  <button type="button" onclick="myButton()" class="button button1" id="button">Generate your sticker!</button>
+  <br>
+
+  <br>
+
+  <div id="scroll_down">
+    <div id="background_flyer" style="height: 300px;">
+      <div id="header">
+        <div id="qrcode"></div>
+      </div>
+      <br>
+    </div>
+    <button type="button" onclick="myGeneratePDF()" class="button button1" id="generatePDF">SAVE</button>
+    <button type="button" class="button button2" id="editPDF">EDIT</button>
+    <br>
+  </div>
+
+
+
+  <script>
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+$(function () {
+  $('.example-popover').popover({
+    container: 'body'
+  })
+})  
+
+
+
+    function pasteText() {
+      //var font = document.getElementById("font_size").value;
+      // var color_font = document.getElementById("color_font").value;
+      var text_1 = document.getElementById("text_1").value;
+      var paragraf = document.getElementById("p_1");
+      paragraf.innerHTML = text_1;
+      //var res = text_1.fontsize(font);
+      //paragraf.innerHTML = res;
+      //paragraf.style.color = color_font;
+
+
+    }
+
+
+
+
+
+    function background() {
+      var color_back = document.getElementById("color_back").value;
+      var background_color = document.getElementById("background_flyer");
+      background_color.style.backgroundColor = color_back;
+
+      //font 
+
+      var color_font = document.getElementById("color_font").value;
+      var m1 = document.getElementById("middleHeader");
+      m1.style.color = color_font;
+      var m2 = document.getElementById("middleHeader_2");
+      m2.style.color = color_font;
+      var list = document.getElementById("list");
+      list.style.color = color_font;
+      var hashtag = document.getElementById("p_2");
+      hashtag.style.color = color_font;
+      var hilsen = document.getElementById("hilsen");
+      hilsen.style.color = color_font;
+
+      //detail
+      var color_detail = document.getElementById("color_detail").value;
+      var qrcodeBorder = document.getElementById("qrcode");
+      qrcodeBorder.style.borderColor = color_detail;
+      var bordNrBorder = document.getElementById("bordNr");
+      bordNrBorder.style.borderColor = color_detail;
+      var listNumb1 = document.getElementById("numb1");
+      var listNumb2 = document.getElementById("numb2");
+      var listNumb3 = document.getElementById("numb3");
+      listNumb1.style.borderColor = color_detail;
+      listNumb2.style.borderColor = color_detail;
+      listNumb3.style.borderColor = color_detail;
+
+      //bold font style
+      var color_bold = document.getElementById("color_bold").value;
+      var ordrBold = document.getElementById("ordrBold");
+      ordrBold.style.color = color_bold;
+      var p_1 = document.getElementById("p_1");
+      p_1.style.color = color_bold;
+      var bordNr_p = document.getElementById("bordNr_p");
+      bordNr_p.style.color = color_bold;
+
+
+
+    }
+
+
+
+
+    //Slider output 
+    var slider = document.getElementById("sliderComp");
+    var output = document.getElementById("sliderValue");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function () {
+      output.innerHTML = this.value;
+    }
+
+
+
+    //------IMG preview---------
+    $(function () {
+      $(":file").change(function () {
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+          reader.onload = imageIsLoaded;
+          reader.readAsDataURL(this.files[0]);
+
+        }
+      });
+    });
+
+    function imageIsLoaded(e) {
+      $('#logo').attr('src', e.target.result);
+
+    };
+
+    //QR-code
+    function makeQR() {
+      var elText = document.getElementById("qr-link");
+      const qrCode = new QRCodeStyling({
+        width: 120,
+        height: 120,
+        data: elText.value,
+        image: "ordrLogo.png",
+        dotsOptions: {
+          color: "#125c76",
+          type: "dots"
+        },
+        backgroundOptions: {
+          color: "#ffffff",
+        }
+      });
+
+      qrCode.append(document.getElementById("qrcode"));
+    }
+
+
+    function myButton() {
+      //reader.onload;
+      document.getElementById('background_flyer').style.display = "block";
+      document.getElementById('generatePDF').style.display = "block";
+      document.getElementById('editPDF').style.display = "block";
+      //console.log("funker");
+      pasteText();
+      background();
+      makeQR();
+    }
+
+    //animation to flyer
+    $("#button").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#generatePDF").offset().top
+      }, 'slow');
+    });
+
+    $("#editPDF").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#body").offset().top
+      }, 'slow');
+    });
+
+    //-------PDF-----------
+
+
+    $('#generatePDF').click(function () {
+      var element = document.getElementById('background_flyer');
+      var element2 = document.getElementById('qrcode');
+
+      var opt = {
+        margin: 0,
+        filename: 'minFlyer.pdf',
+        image: { type: 'jpeg', quality: 3 },
+        html2canvas: { scale: 3 },
+        jsPDF: { unit: 'in', format: 'a5', orientation: 'portrait' }
+
+      };
+
+
+      // New Promise-based usage:
+      //html2pdf().set(opt).from(element).save();
+
+      // Old monolithic-style usage:
+      html2pdf(element, opt);
+
+    });
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

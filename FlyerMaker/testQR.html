@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <input id="qr-link" type="text" value="" placeholder="Paste your link..." />
+    <button type="button" onclick="button()" class="button button1" id="generatePDF">SAVE</button>
+    <title>QR Code Styling</title>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js"></script>
+</head>
+
+<body>
+    <div id="canvas"></div>
+    <script type="text/javascript">
+
+        var elText = document.getElementById("qr-link");
+        var array = [];
+        function button() {
+            const qrCode = new QRCodeStyling({
+                width: 200,
+                height: 200,
+                data: elText.value,
+                image: "ordrLogo.png",
+                dotsOptions: {
+                    color: "#125c76",
+                    type: "dots"
+                },
+                backgroundOptions: {
+                    color: "#ffffff",
+                }
+
+            });
+            array.push(qrCode);
+            console.log(array.length - 1);
+
+            qrCode.append(document.getElementById("canvas"));
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
